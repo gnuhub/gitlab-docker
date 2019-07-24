@@ -1,0 +1,28 @@
+web:
+  image: 'gitlab/gitlab-ee:latest'
+  restart: always
+  privileged: true
+  hostname: '1.2.3.4'
+  environment:
+    GITLAB_OMNIBUS_CONFIG: |
+      external_url 'http://1.2.3.4'
+      gitlab_rails['gitlab_shell_ssh_port'] = 2222
+      gitlab_rails['smtp_enable']=true
+      gitlab_rails['smtp_address']="smtp.qq.com"
+      gitlab_rails['smtp_port']=465
+      gitlab_rails['smtp_user_name']="123456@qq.com"
+      gitlab_rails['smtp_password']="123456789"
+      gitlab_rails['smtp_domain']="qq.com"
+      gitlab_rails['smtp_authentication']="login"
+      gitlab_rails['smtp_enable_starttls_auto']=true
+      gitlab_rails['smtp_tls']=true
+      gitlab_rails['gitlab_email_from']="123456@qq.com"
+  ports:
+    - '80:80'
+    - '2222:22'
+  volumes:
+    - './gitlabdata/config:/etc/gitlab'
+    - './gitlabdata/logs:/var/log/gitlab'
+    - './gitlabdata/data:/var/opt/gitlab'
+    - './license_key.pub:/opt/gitlab/embedded/service/gitlab-rails/.license_encryption_key.pub'
+
